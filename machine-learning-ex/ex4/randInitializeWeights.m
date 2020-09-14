@@ -19,11 +19,11 @@ W = zeros(L_out, 1 + L_in);
 % Note: The first column of W corresponds to the parameters for the bias unit
 %
 
-
-
-
-
-
+for i = 1:size(W,1)
+    for j = 1:size(W,2)
+        W(i,j) = unifrnd(-0.12,0.12);
+    end
+end
 
 
 

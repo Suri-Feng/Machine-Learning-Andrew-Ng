@@ -62,22 +62,34 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
+% one-hot encoding y
+yv = zeros(m, num_labels);
+for i = 1:m
+    yv(i, y(i)) = 1;
+end
+
+%bp
+for t = 1:m   
+    a1 = [ones(m,1), X];
+    z2 = a1*Theta1';
+    a2 = [ones(m,1),sigmoid(z2)];
+    z3 = a2*Theta2';
+    a3 = sigmoid(z3);
+    d3 = a3 - yv;
+    g2 = sigmoidGradient(z2);
+    d2 = d3*Theta2(:,2:end).*g2;
+    Delta3 = d3'*a2;
+    Delta2 = d2'*a1;
+end
+    Theta2_grad(:,1) = Delta3(:,1)/m;
+    Theta1_grad(:,1) = Delta2(:,1)/m;
+    Theta2_grad(:,2:end) = Delta3(:,2:end)/m + lambda/m*Theta2(:,2:end);
+    Theta1_grad(:,2:end) = Delta2(:,2:end)/m + lambda/m*Theta1(:,2:end);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+J = 1/m*sum(sum(-yv.*log(a3) - (1-yv).*log(1 - a3),2)) ...
+    + lambda/(2*m)*(sum(sum(Theta1(:, 2:size(Theta1,2)).^2,2)) + ...
+    sum(sum(Theta2(:, 2:size(Theta2,2)).^2,2)));
 
 
 % -------------------------------------------------------------
