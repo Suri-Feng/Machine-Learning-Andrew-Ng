@@ -21,6 +21,20 @@ idx = zeros(size(X,1), 1);
 % Note: You can use a for-loop over the examples to compute this.
 %
 
+for i = 1:size(X,1)
+    for j = 1:K
+        dSquared = sum((X(i,:) - centroids(j,:)).^2);
+        if j == 1
+            dSquaredMin = dSquared;
+            idx(i) = j;
+        else
+            if dSquared <= dSquaredMin 
+                dSquaredMin = dSquared;
+                idx(i) = j;
+            end
+        end
+    end
+end
 
 
 
